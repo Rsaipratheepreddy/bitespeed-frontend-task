@@ -1,11 +1,9 @@
 import { PipelineUI } from './ui';
-import { Header } from './header';
 import { NodePannel } from './nodePannel';
 
 function App() {
   return (
     <div>
-      <Header />
       <div style={{
         display: 'flex',
         width: '100%',
