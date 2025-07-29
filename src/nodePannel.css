@@ -1,0 +1,113 @@
+.nodePannel-con {
+  width: 500px;
+  height: 100%;
+  background: #f9fafb;
+  border-left: 1px solid #e5e7eb;
+  font-family: Inter, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.nodePannel-inner {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nodePannel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.nodePannel-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nodePannel-label {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nodePannel-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  resize: vertical;
+}
+
+.pannel-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pannel-btn.primary {
+  background: #6366f1;
+  color: #fff;
+}
+
+.pannel-btn.primary:hover {
+  background: #4f46e5;
+}
+
+.pannel-btn.secondary {
+  background: #4b5563;
+  color: #fff;
+}
+
+.pannel-btn.secondary:hover {
+  background: #374151;
+}
+
+.pannel-btn.danger {
+  background: #ef4444;
+  color: #fff;
+}
+
+.pannel-btn.danger:hover {
+  background: #dc2626;
+}
+
+.placeholder-text {
+  padding: 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.tab.active {
+  color: #111827;
+  font-weight: 600;
+  border-bottom: 2px solid #6366f1;
+}

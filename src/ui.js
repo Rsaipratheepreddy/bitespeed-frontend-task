@@ -1,11 +1,12 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
+import Editor from '@monaco-editor/react';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { AccountNode } from './nodes/accountNode';
 import { LoanNode } from './nodes/loanNode';
 import { CollateralNode } from './nodes/collateralNode';
-import { TextNode } from './nodes/textNode';
+
 
 import 'reactflow/dist/style.css';
 
@@ -15,7 +16,6 @@ const nodeTypes = {
   account: AccountNode,
   loan: LoanNode,
   collateral: CollateralNode,
-  text: TextNode,
 };
 
 const selector = (state) => ({
@@ -28,6 +28,8 @@ const selector = (state) => ({
   onConnect: state.onConnect,
   currentSelectId: state.currentSelectId,
   setCurrentSelectId: state.setCurrentSelectId,
+  addChild: state.addChild,
+  setReactFlowInstanceStore: state.setReactFlowInstance,
 });
 
 export const PipelineUI = () => {
@@ -41,6 +43,8 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     setCurrentSelectId,
+    addChild,
+    setReactFlowInstanceStore,
     onConnect
   } = useStore(selector, shallow);
 
@@ -98,7 +102,7 @@ export const PipelineUI = () => {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          onInit={setReactFlowInstance}
+          onInit={(inst)=>{setReactFlowInstance(inst); setReactFlowInstanceStore(inst);}}
           nodeTypes={nodeTypes}
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
@@ -112,6 +116,14 @@ export const PipelineUI = () => {
           <Background color="#aaa" gap={gridSize} />
           <Controls />
         </ReactFlow>
+      </div>
+      <div style={{height:'30vh'}}>
+        <Editor
+          height="100%"
+          defaultLanguage="json"
+          options={{readOnly:true}}
+          value={JSON.stringify({nodes,edges},null,2)}
+        />
       </div>
     </>
   )

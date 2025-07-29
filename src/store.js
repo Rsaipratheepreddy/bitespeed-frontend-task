@@ -1,6 +1,6 @@
-
-
 import { create } from "zustand";
+import { v4 as uuidv4 } from 'uuid';
+import dagre from 'dagre';
 import {
   addEdge,
   applyNodeChanges,
@@ -8,8 +8,34 @@ import {
   MarkerType,
 } from 'reactflow';
 
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+const getLayouted = (nodes, edges, direction = 'LR') => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: direction });
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  return nodes.map((node) => {
+    const { x, y } = dagreGraph.node(node.id);
+    return { ...node, position: { x, y } };
+  });
+};
+
 export const useStore = create((set, get) => ({
-  nodes: [],
+  reactFlowInstance: null,
+  setReactFlowInstance: (inst) => set({ reactFlowInstance: inst }),
+  nodes: [{ id: uuidv4(), type: 'account', position: { x: 250, y: 50 }, data: '' }],
   edges: [],
   currentSelectId: null,
   setCurrentSelectId: (id) => {
@@ -34,16 +60,14 @@ export const useStore = create((set, get) => ({
     set({ error: null });
     return true;
   },
-  getNodeID: (type) => {
-    const newIDs = { ...get().nodeIDs };
-    if (newIDs[type] === undefined) {
-      newIDs[type] = 0;
-    }
-    newIDs[type] += 1;
-    set({ nodeIDs: newIDs });
-    return `${type}-${newIDs[type]}`;
+  getNodeID: () => {
+    return uuidv4();
   },
+
   addNode: (node) => {
+    // ensure unique id
+    if (get().nodes.find(n => n.id === node.id)) return;
+
     set({
       nodes: [...get().nodes, node]
     });
@@ -61,6 +85,33 @@ export const useStore = create((set, get) => ({
   onConnect: (connection) => {
     set({
       edges: addEdge({ ...connection, type: 'smoothstep', animated: true, markerEnd: { type: MarkerType.Arrow, height: '20px', width: '20px' } }, get().edges),
+    });
+  },
+  addChild: (parentId, childType) => {
+    const { nodes, edges, reactFlowInstance, getNodeID } = get();
+    const parent = nodes.find(n => n.id === parentId);
+    if (!parent) return;
+
+    const allowed = {
+      account: ['loan', 'collateral'],
+      loan: ['collateral'],
+      collateral: [],
+    };
+    if (!allowed[parent.type].includes(childType)) return;
+
+    const childId = getNodeID();
+    const newNode = { id: childId, type: childType, position: { x: 0, y: 0 }, data: '' };
+    const updatedNodes = [...nodes, newNode];
+    const updatedEdges = [...edges, { id: `${parentId}-${childId}`, source: parentId, target: childId, type: 'smoothstep' }];
+    const layouted = getLayouted(updatedNodes, updatedEdges);
+    set({ nodes: layouted, edges: updatedEdges });
+  },
+  deleteNode: (nodeId) => {
+    const { nodes, edges } = get();
+    set({
+      nodes: nodes.filter(n => n.id !== nodeId),
+      edges: edges.filter(e => e.source !== nodeId && e.target !== nodeId),
+      currentSelectId: null,
     });
   },
   updateNodeField: (nodeId, data) => {

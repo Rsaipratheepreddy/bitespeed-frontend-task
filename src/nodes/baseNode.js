@@ -24,9 +24,7 @@ const BaseNode = ({
     return (
         <div className={isSelected ? "nodeCard selected" : "nodeCard"} onClick={onClick}>
             <div className="nodeTitleCon">
-                <IconMessage stroke={2} size={24} />
                 {title}
-                <IconBrandWhatsapp stroke={2} size={24} />
             </div>
             <div className="nodeContent">
                 {children}
