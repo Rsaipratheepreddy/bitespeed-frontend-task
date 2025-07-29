@@ -5,6 +5,7 @@ import { shallow } from 'zustand/shallow';
 import { AccountNode } from './nodes/accountNode';
 import { LoanNode } from './nodes/loanNode';
 import { CollateralNode } from './nodes/collateralNode';
+import { TextNode } from './nodes/textNode';
 
 import 'reactflow/dist/style.css';
 
@@ -14,6 +15,7 @@ const nodeTypes = {
   account: AccountNode,
   loan: LoanNode,
   collateral: CollateralNode,
+  text: TextNode,
 };
 
 const selector = (state) => ({
