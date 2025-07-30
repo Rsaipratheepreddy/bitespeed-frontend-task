@@ -108,9 +108,22 @@ export const useStore = create((set, get) => ({
   },
   deleteNode: (nodeId) => {
     const { nodes, edges } = get();
+
+    const toDelete = new Set([nodeId]);
+    let added = true;
+    while (added) {
+      added = false;
+      edges.forEach((edge) => {
+        if (toDelete.has(edge.source) && !toDelete.has(edge.target)) {
+          toDelete.add(edge.target);
+          added = true;
+        }
+      });
+    }
+
     set({
-      nodes: nodes.filter(n => n.id !== nodeId),
-      edges: edges.filter(e => e.source !== nodeId && e.target !== nodeId),
+      nodes: nodes.filter((n) => !toDelete.has(n.id)),
+      edges: edges.filter((e) => !toDelete.has(e.source) && !toDelete.has(e.target)),
       currentSelectId: null,
     });
   },
