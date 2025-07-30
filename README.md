@@ -12,9 +12,9 @@ edge  : { id, source, target }
 ```
 
 Types allowed:
-xwxwxw
-* account → loan | collateral
-* loan → collateral
+
+- account → loan | collateral
+- loan → collateral
 
 Positions are calculated by Dagre (top-to-bottom).
 
@@ -24,9 +24,9 @@ Positions are calculated by Dagre (top-to-bottom).
 
 Custom React Flow nodes:
 
-* `AccountNode`
-* `LoanNode`
-* `CollateralNode`
+- `AccountNode`
+- `LoanNode`
+- `CollateralNode`
 
 Each one is a small component under `src/nodes/`.
 
@@ -34,11 +34,11 @@ Each one is a small component under `src/nodes/`.
 
 ## UX notes
 
-* The canvas starts with a single **Account** root node already in place.
-* Click any node to open the side panel; it shows actions allowed for that node type (add Loan/Collateral, delete, etc.).
-* Adding or connecting nodes auto-re-layouts the tree and recentres the view.
-* Deleting a node removes it **and all of its descendants**.
-* A read-only JSON view at the bottom always reflects the current graph state.
+- The canvas starts with a single **Account** root node already in place.
+- Click any node to open the side panel; it shows actions allowed for that node type (add Loan/Collateral, delete, etc.).
+- Adding or connecting nodes auto-re-layouts the tree and recentres the view.
+- Deleting a node removes it **and all of its descendants**.
+- A read-only JSON view at the bottom always reflects the current graph state.
 
 ---
 

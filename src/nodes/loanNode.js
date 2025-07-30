@@ -1,9 +1,7 @@
-// loanNode.js
-
-import { Handle, Position } from 'reactflow';
-import BaseNode from './baseNode';
-import { useStore } from '../store';
-import { IconReceipt2 } from '@tabler/icons-react';
+import { Position } from "reactflow";
+import BaseNode from "./baseNode";
+import { useStore } from "../store";
+import { IconReceipt2 } from "@tabler/icons-react";
 
 export const LoanNode = ({ id, data }) => {
   const { setCurrentSelectId, currentSelectId } = useStore();
@@ -15,11 +13,11 @@ export const LoanNode = ({ id, data }) => {
       isSelected={currentSelectId === id}
       onClick={() => setCurrentSelectId(id)}
       handles={[
-        { type: 'target', position: Position.Left, id: `${id}-in` },
-        { type: 'source', position: Position.Right, id: `${id}-out` },
+        { type: "target", position: Position.Left, id: `${id}-in` },
+        { type: "source", position: Position.Right, id: `${id}-out` },
       ]}
     >
-      <p style={{ color: 'black', fontSize: '16px' }}>{data}</p>
+      <p className="text-xs text-gray-500">{data}</p>
     </BaseNode>
   );
 };

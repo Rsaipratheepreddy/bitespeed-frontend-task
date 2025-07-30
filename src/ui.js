@@ -99,7 +99,7 @@ export const PipelineUI = () => {
 
   return (
     <>
-      <div ref={reactFlowWrapper} style={{ width: "100%", height: "100dvh" }}>
+      <div ref={reactFlowWrapper} className="w-full">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -108,7 +108,10 @@ export const PipelineUI = () => {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          onInit={(inst) => { setReactFlowInstance(inst); setReactFlowInstanceStore(inst); }}
+          onInit={(inst) => {
+            setReactFlowInstance(inst);
+            setReactFlowInstanceStore(inst);
+          }}
           nodeTypes={nodeTypes}
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
@@ -123,7 +126,7 @@ export const PipelineUI = () => {
           <Controls />
         </ReactFlow>
       </div>
-      <div style={{ height: '30vh' }}>
+      <div className="h-[30dvh]">
         <Editor
           height="100%"
           defaultLanguage="json"
