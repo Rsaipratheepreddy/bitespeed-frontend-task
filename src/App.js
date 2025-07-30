@@ -1,17 +1,11 @@
-import { PipelineUI } from './ui';
-import { NodePannel } from './nodePannel';
+import { PipelineUI } from "./ui";
+import { NodePannel } from "./nodePannel";
 
 function App() {
   return (
-    <div>
-      <div style={{
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-      }}>
-        <PipelineUI />
-        <NodePannel />
-      </div>
+    <div className="flex flex-col md:flex-row w-full h-screen">
+      <PipelineUI />
+      <NodePannel />
     </div>
   );
 }

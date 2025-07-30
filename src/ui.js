@@ -1,12 +1,12 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import ReactFlow, { Controls, Background } from 'reactflow';
-import Editor from '@monaco-editor/react';
-import { useStore } from './store';
-import { shallow } from 'zustand/shallow';
-import { AccountNode } from './nodes/accountNode';
-import { LoanNode } from './nodes/loanNode';
-import { CollateralNode } from './nodes/collateralNode';
-import 'reactflow/dist/style.css';
+import { useState, useRef, useCallback, useEffect } from "react";
+import ReactFlow, { Controls, Background } from "reactflow";
+import Editor from "@monaco-editor/react";
+import { useStore } from "./store";
+import { shallow } from "zustand/shallow";
+import { AccountNode } from "./nodes/accountNode";
+import { LoanNode } from "./nodes/loanNode";
+import { CollateralNode } from "./nodes/collateralNode";
+import "reactflow/dist/style.css";
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
@@ -47,21 +47,23 @@ export const PipelineUI = () => {
   } = useStore(selector, shallow);
 
   const getInitNodeData = () => {
-    let nodeData = nodes.length === 0 ? 'text message' : `text message ${nodes.length}`;
+    let nodeData =
+      nodes.length === 0 ? "text message" : `text message ${nodes.length}`;
     return nodeData;
-  }
+  };
 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      if (event?.dataTransfer?.getData('application/reactflow')) {
-        const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
+      if (event?.dataTransfer?.getData("application/reactflow")) {
+        const appData = JSON.parse(
+          event.dataTransfer.getData("application/reactflow")
+        );
         const type = appData?.nodeType;
 
-
-        if (typeof type === 'undefined' || !type) {
+        if (typeof type === "undefined" || !type) {
           return;
         }
 
@@ -84,14 +86,20 @@ export const PipelineUI = () => {
     [reactFlowInstance, getNodeID, addNode, nodes]
   );
 
+  useEffect(() => {
+    if (reactFlowInstance) {
+      reactFlowInstance.fitView({ padding: 0.3 });
+    }
+  }, [nodes, edges, reactFlowInstance]);
+
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
   return (
     <>
-      <div ref={reactFlowWrapper} style={{ width: '100%', height: '70vh' }}>
+      <div ref={reactFlowWrapper} style={{ width: "100%", height: "100dvh" }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -104,9 +112,9 @@ export const PipelineUI = () => {
           nodeTypes={nodeTypes}
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
-          connectionLineType='smoothstep'
+          connectionLineType="smoothstep"
           onClick={(e) => {
-            if (e.target.classList.contains('react-flow__pane')) {
+            if (e.target.classList.contains("react-flow__pane")) {
               setCurrentSelectId(null);
             }
           }}
@@ -124,5 +132,5 @@ export const PipelineUI = () => {
         />
       </div>
     </>
-  )
-}
+  );
+};
