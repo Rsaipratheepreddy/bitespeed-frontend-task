@@ -1,6 +1,6 @@
 // collateralNode.js
 
-import { Handle, Position } from 'reactflow';
+import {Position } from 'reactflow';
 import BaseNode from './baseNode';
 import { useStore } from '../store';
 import { IconBuildingBank } from '@tabler/icons-react';
@@ -16,7 +16,6 @@ export const CollateralNode = ({ id, data }) => {
       onClick={() => setCurrentSelectId(id)}
       handles={[{ type: 'target', position: Position.Left, id: `${id}-in` }]}
     >
-      <p style={{ color: 'black', fontSize: '16px' }}>{data}</p>
     </BaseNode>
   );
 };

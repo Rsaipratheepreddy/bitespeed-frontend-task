@@ -15,9 +15,6 @@ export const AccountNode = ({ id, data }) => {
       isSelected={currentSelectId === id}
       onClick={() => setCurrentSelectId(id)}
       handles={[{ type: 'source', position: Position.Right, id: `${id}-out` }]}
-    >
-      <p style={{ color: 'black', fontSize: '16px' }}>{data}</p>
-      {/* Only source handle defined above through props */}
-    </BaseNode>
+   />
   );
 };

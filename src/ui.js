@@ -6,8 +6,6 @@ import { shallow } from 'zustand/shallow';
 import { AccountNode } from './nodes/accountNode';
 import { LoanNode } from './nodes/loanNode';
 import { CollateralNode } from './nodes/collateralNode';
-
-
 import 'reactflow/dist/style.css';
 
 const gridSize = 20;

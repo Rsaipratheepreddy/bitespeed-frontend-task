@@ -10,7 +10,6 @@ function App() {
         display: 'flex',
         width: '100%',
         height: '100%',
-
       }}>
         <PipelineUI />
         <NodePannel />
