@@ -28,6 +28,7 @@ const selector = (state) => ({
   setCurrentSelectId: state.setCurrentSelectId,
   addChild: state.addChild,
   setReactFlowInstanceStore: state.setReactFlowInstance,
+  layout: state.layout,
 });
 
 export const PipelineUI = () => {
@@ -41,9 +42,8 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     setCurrentSelectId,
-    addChild,
     setReactFlowInstanceStore,
-    onConnect
+    onConnect,
   } = useStore(selector, shallow);
 
   const getInitNodeData = () => {
@@ -100,7 +100,7 @@ export const PipelineUI = () => {
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          onInit={(inst)=>{setReactFlowInstance(inst); setReactFlowInstanceStore(inst);}}
+          onInit={(inst) => { setReactFlowInstance(inst); setReactFlowInstanceStore(inst); }}
           nodeTypes={nodeTypes}
           proOptions={proOptions}
           snapGrid={[gridSize, gridSize]}
@@ -115,12 +115,12 @@ export const PipelineUI = () => {
           <Controls />
         </ReactFlow>
       </div>
-      <div style={{height:'30vh'}}>
+      <div style={{ height: '30vh' }}>
         <Editor
           height="100%"
           defaultLanguage="json"
-          options={{readOnly:true}}
-          value={JSON.stringify({nodes,edges},null,2)}
+          options={{ readOnly: true }}
+          value={JSON.stringify({ nodes, edges }, null, 2)}
         />
       </div>
     </>

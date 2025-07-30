@@ -11,10 +11,11 @@ import {
 const nodeWidth = 172;
 const nodeHeight = 36;
 
-const getLayouted = (nodes, edges, direction = 'LR') => {
+const getLayouted = (nodes, edges, direction = 'TB') => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: direction });
+  const separation = { nodesep: 60, ranksep: 120 };
+  dagreGraph.setGraph({ rankdir: direction, ...separation });
 
   nodes.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
@@ -28,7 +29,8 @@ const getLayouted = (nodes, edges, direction = 'LR') => {
 
   return nodes.map((node) => {
     const { x, y } = dagreGraph.node(node.id);
-    return { ...node, position: { x, y } };
+    // Dagre positions are the center; React Flow expects top-left
+    return { ...node, position: { x: x - nodeWidth / 2, y: y - nodeHeight / 2 } };
   });
 };
 
@@ -68,9 +70,9 @@ export const useStore = create((set, get) => ({
     // ensure unique id
     if (get().nodes.find(n => n.id === node.id)) return;
 
-    set({
-      nodes: [...get().nodes, node]
-    });
+    const updatedNodes = [...get().nodes, node];
+    const layouted = getLayouted(updatedNodes, get().edges);
+    set({ nodes: layouted });
   },
   onNodesChange: (changes) => {
     set({
@@ -83,9 +85,9 @@ export const useStore = create((set, get) => ({
     });
   },
   onConnect: (connection) => {
-    set({
-      edges: addEdge({ ...connection, type: 'smoothstep', animated: true, markerEnd: { type: MarkerType.Arrow, height: '20px', width: '20px' } }, get().edges),
-    });
+    const updatedEdges = addEdge({ ...connection, type: 'smoothstep', animated: true, markerEnd: { type: MarkerType.Arrow, height: '20px', width: '20px' } }, get().edges);
+    const layouted = getLayouted(get().nodes, updatedEdges);
+    set({ nodes: layouted, edges: updatedEdges });
   },
   addChild: (parentId, childType) => {
     const { nodes, edges, reactFlowInstance, getNodeID } = get();
@@ -121,11 +123,16 @@ export const useStore = create((set, get) => ({
       });
     }
 
-    set({
-      nodes: nodes.filter((n) => !toDelete.has(n.id)),
-      edges: edges.filter((e) => !toDelete.has(e.source) && !toDelete.has(e.target)),
-      currentSelectId: null,
-    });
+    const remainingNodes = nodes.filter((n) => !toDelete.has(n.id));
+    const remainingEdges = edges.filter((e) => !toDelete.has(e.source) && !toDelete.has(e.target));
+    const layouted = getLayouted(remainingNodes, remainingEdges);
+    set({ nodes: layouted, edges: remainingEdges, currentSelectId: null });
+  },
+  layout: () => {
+    const { nodes, edges } = get();
+    // Recalculate positions using dagre and update state
+    const layouted = getLayouted([...nodes], edges);
+    set({ nodes: layouted });
   },
   updateNodeField: (nodeId, data) => {
     set({
