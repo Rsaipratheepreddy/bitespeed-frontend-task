@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useStore } from "./store";
 import Editor from "@monaco-editor/react";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { Button } from "./components/Button"; // Adjust the import path as necessary
+import { Button } from "./components/Button";
 
 export const NodePannel = () => {
   const {
