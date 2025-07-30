@@ -1,6 +1,5 @@
 // nodePannel.js - Side panel with tabs
 'use client'
-import './common.css'
 import { useState } from 'react';
 import { useStore } from './store';
 import Editor from '@monaco-editor/react';
@@ -10,7 +9,6 @@ import { IconArrowLeft } from '@tabler/icons-react';
 export const NodePannel = () => {
     const { currentSelectId, nodes, edges, setCurrentSelectId, addChild, deleteNode } = useStore();
     const [activeTab, setActiveTab] = useState('details');
-
     const selectedNode = nodes.find((n) => n.id === currentSelectId);
 
     const renderDetails = () => {

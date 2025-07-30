@@ -1,5 +1,4 @@
 // header.js
-import './common.css'
 import { useStore } from './store';
 import { useState } from 'react';
 
@@ -15,13 +14,18 @@ export const Header = () => {
     };
 
     return (
-        <div className="header-con">
+      <div className="flex w-full justify-end max-h-[70px] bg-gray-100 p-2.5 gap-5">
             {error ? (
-                <div style={{ color: 'red', marginLeft: '20px' }}>{error}</div>
+                <div className="text-red-500 ml-5">{error}</div>
             ) : success ? (
-                <div style={{ color: 'green', marginLeft: '20px' }}>Changes saved successfully!</div>
+                <div className="text-green-500 ml-5">Changes saved successfully!</div>
             ) : null}
-            <button onClick={handleSave}>Save Changes</button>
+            <button 
+                onClick={handleSave}
+                className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
+            >
+                Save Changes
+            </button>
         </div>
     );
 };
