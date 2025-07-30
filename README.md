@@ -11,7 +11,7 @@ node  : { id, type, position, data }
 edge  : { id, source, target }
 ```
 
-Types allowed:
+Node types allowed:
 
 - account → loan | collateral
 - loan → collateral
